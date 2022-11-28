@@ -1,0 +1,641 @@
+import React, { useContext, useEffect, useState } from "react";
+import {
+  AddButton,
+  SearchBar,
+  MiniButtonWithIcon,
+  LoadingSpinner,
+} from "../../components";
+import { AdminContext } from "../../config/context/adminContext";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+import Swal from "sweetalert2";
+
+import * as constants from "../../constants";
+
+const Seaters = () => {
+  const base_url = constants.base_url;
+  const context = useContext(AdminContext);
+  const [msgValidation, setMsgValidation] = useState([]);
+  const [singleMsg, setSingleMsg] = useState("");
+  const [isOpenForm, setIsOpenForm] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [idUpdate, setIdUpdate] = useState(0);
+  const [selactedTypeTop, setSelactedTypeTop] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [preview2D, setPreview2D] = useState("");
+  const [getImg, setGetImg] = useState("");
+  const [isOpenModalViewImg, setIsOpenModalViewImg] = useState(false);
+
+  //Pagination
+  const [topDimension, setTopDimension] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+  const [keyword, setKeyword] = useState("");
+  const [limit, setLimit] = useState(10);
+  const [query, setQuery] = useState("");
+
+  const [form, setForm] = useState({
+    name: "",
+    panjang: "",
+    lebar: "",
+    diameter: "",
+    type_top: "",
+    is_visible: "",
+    file: "",
+  });
+
+  const handleChangeForm = (e) => {
+    let data = { ...form };
+    data[e.target.name] = e.target.value;
+    if (e.target.files) {
+      data[e.target.name] = e.target.files[0];
+    }
+    if (e.target.name == "file") {
+      setPreview2D(URL.createObjectURL(e.target.files[0]));
+    }
+    if (data.type_top == 1) {
+      data.diameter = "";
+    }
+    if (data.type_top == 0) {
+      data.panjang = "";
+      data.lebar = "";
+    }
+    if (e.target.name == "type_top") {
+      setSelactedTypeTop(e.target.value);
+    }
+
+    setForm(data);
+  };
+
+  const resetForm = () => {
+    setIsOpenForm(false);
+    setMsgValidation([]);
+    setIsUpdate(false);
+    setSelactedTypeTop(null);
+    setPreview2D("");
+    setForm({
+      name: "",
+      code: "",
+      panjang: "",
+      lebar: "",
+      diameter: "",
+      type_top: "",
+      is_visible: "",
+      file: "",
+    });
+  };
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
+  };
+
+  useEffect(function () {
+    const search = document.getElementById("searchIpt");
+    search.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("searchBtn").click();
+      }
+    });
+  }, []);
+
+  const findData = async (e) => {
+    e.preventDefault();
+    setPage(0);
+    setKeyword(query);
+  };
+
+  function handleEdit(id) {
+    setIsOpenForm(true);
+    setIsUpdate(true);
+    setIdUpdate(id);
+    let data = [...topDimension];
+    let foundData = data.find((matbtm) => matbtm.id === id);
+    setGetImg(foundData.file);
+    setSelactedTypeTop(foundData.type_top);
+    setForm({
+      name: foundData.name,
+      code: foundData.code,
+      panjang: foundData.panjang,
+      lebar: foundData.lebar,
+      diameter: foundData.diameter,
+      type_top: foundData.type_top,
+      is_visible: foundData.is_visible,
+      file: foundData.file,
+    });
+  }
+
+  // CRUD
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    let newData = {
+      name: form.name,
+      code: form.code,
+      panjang: form.panjang,
+      lebar: form.lebar,
+      diameter: form.diameter,
+      type_top: form.type_top,
+      is_visible: form.is_visible,
+      file: form.file,
+    };
+
+    if (!isUpdate) {
+      await axios
+        .post(base_url + "/seaters/add-seaters", newData, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+
+          if (response.data.success) {
+            Swal.fire({
+              icon: "success",
+              text: response.data.message,
+            });
+            resetForm();
+          } else {
+            if (Array.isArray(response.data.message)) {
+              setMsgValidation(response.data.message);
+            } else {
+              setMsgValidation([]);
+              setSingleMsg(response.data.message);
+            }
+          }
+        });
+    } else {
+      await axios
+        .put(base_url + `/seaters/update-seaters/${idUpdate}`, newData, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+
+          if (response.data.success) {
+            Swal.fire({
+              icon: "success",
+              text: response.data.message,
+            });
+            resetForm();
+          } else {
+            if (Array.isArray(response.data.message)) {
+              setMsgValidation(response.data.message);
+            } else {
+              setMsgValidation([]);
+              setSingleMsg(response.data.message);
+            }
+          }
+        });
+    }
+
+    getTopDimension();
+  };
+
+  const handleDelete = async (id) => {
+    // const answer = window.confirm("Are you sure to delete this dimension?");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showDenyButton: true,
+      confirmButtonText: "Ok",
+      denyButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          setIsOpenForm(true);
+          setLoading(true);
+
+          await axios
+            .delete(base_url + "/seaters/delete-seaters/" + id)
+            .then((response) => {
+              if (response.data.success) {
+                setLoading(false);
+                setIsOpenForm(false);
+
+                Swal.fire({
+                  icon: "success",
+                  text: response.data.message,
+                });
+
+                getTopDimension();
+              }
+            });
+        } catch (err) {
+          setLoading(false);
+          setIsOpenForm(false);
+          Swal.fire("Maaf, data gagal dihapus", "", "error");
+        }
+      }
+    });
+  };
+
+  const getTopDimension = async (e) => {
+    const response = await axios.get(
+      `${base_url}/seaters/get-seaters?search_query=${keyword}&page=${page}&limit=${limit}`
+    );
+
+    setTopDimension(response.data.data.result);
+    setPage(response.data.data.page);
+    setPages(response.data.data.totalPage);
+    setRows(response.data.data.totalRows);
+  };
+
+  useEffect(() => {
+    getTopDimension();
+  }, [keyword, page]);
+
+  return (
+    <section
+      className={
+        "top-[50px] h-full relative p-5 bg-[#FFF3E5] " +
+        (context.navResponsive == true
+          ? "lg:ml-[230px] ml-[55px]"
+          : "ml-[55px]")
+      }
+    >
+      <div className="flex sm:flex-row flex-col gap-5 sm:items-center items-start mb-6">
+        <SearchBar
+          value={query}
+          actionChange={(e) => setQuery(e.target.value)}
+          action={findData}
+          idIpt="searchIpt"
+          idBtn="searchBtn"
+        />
+        <AddButton name="Add Dimension" action={() => setIsOpenForm(true)} />
+      </div>
+
+      <div className="overflow-x-auto scrollbar-custom bg-white overflow-hidden mb-3">
+        <table
+          className="sm:w-full w-max border border-black"
+          id="table--Seater"
+        >
+          <thead>
+            <tr className="text-center font-jakarta lg:text-base md:text-sm text-xs font-bold text-white bg-primary">
+              <th className="p-2" scope="col">
+                No
+              </th>
+              <th className="p-2" scope="col">
+                Name
+              </th>
+              <th className="p-2" scope="col">
+                Length
+              </th>
+              <th className="p-2" scope="col">
+                Width
+              </th>
+              <th className="p-2" scope="col">
+                Diameter
+              </th>
+              <th className="p-2" scope="col">
+                Type of Top
+              </th>
+              <th className="p-2" scope="col">
+                Unique Code
+              </th>
+              <th className="p-2" scope="col">
+                Visible
+              </th>
+              <th className="p-2" scope="col">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {topDimension.map((dTopDimension, index) => (
+              <tr
+                className="border-b border-b-black text-center font-jakarta lg:text-base md:text-sm text-xs font-normal"
+                key={index}
+              >
+                <td className="p-2" data-label="No">
+                  {index + 1}
+                </td>
+                <td className="p-2" data-label="Name">
+                  {dTopDimension.name}
+                </td>
+                <td className="p-2" data-label="Length">
+                  {dTopDimension.panjang}
+                </td>
+                <td className="p-2" data-label="Width">
+                  {dTopDimension.lebar}
+                </td>
+                <td className="p-2" data-label="Diameter">
+                  {dTopDimension.diameter}
+                </td>
+                <td className="p-2" data-label="Type of Top">
+                  {dTopDimension.type_top == 1 ? "Have Corner" : "No Corner"}
+                </td>
+                <td className="p-2" data-label="Unique Code">
+                  {dTopDimension.code}
+                </td>
+                <td className="p-2" data-label="Visible">
+                  <img
+                    className="block m-auto midget:mr-0"
+                    src={
+                      dTopDimension.is_visible == 1
+                        ? "../../assets/icons/IconVisible.svg"
+                        : "../../assets/icons/IconInvisible.svg"
+                    }
+                    alt=""
+                  />
+                </td>
+                <td className="p-2" data-label="Action">
+                  <div className="flex gap-1 flex-wrap justify-center midget:justify-end">
+                    <MiniButtonWithIcon
+                      colorBorder="primary"
+                      colorBg="primary"
+                      colorText="white"
+                      action={() => handleEdit(dTopDimension.id)}
+                      img="/assets/icons/IconEdit.svg"
+                      name="Edit"
+                    />
+                    {context.accessRights == 1 ? (
+                      <button
+                        className="flex items-center gap-1  bg-red-600 rounded-[5px] py-1 px-2 font-jakarta text-xs text-white"
+                        onClick={() => handleDelete(dTopDimension.id)}
+                        alt="Delete"
+                        title="Delete"
+                        data-bs-toggle="tooltip"
+                        data-mdb-ripple="true"
+                        data-mdb-ripple-color="light"
+                      >
+                        <img
+                          src="/assets/icons/IconClose.svg"
+                          name="Delete"
+                          alt=""
+                        />
+                        Delete
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="font-jakarta lg:text-base md:text-sm text-xs">
+        Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+      </p>
+
+      <nav key={rows} role="navigation" aria-label="pagination">
+        <ReactPaginate
+          previousLabel={
+            <img
+              className="h-[30px] w-[30px] p-[11px] object-cover"
+              src="/assets/icons/IconArrowLeft.svg"
+              alt="Prev"
+            />
+          }
+          nextLabel={
+            <img
+              className="h-[30px] w-[30px] p-[11px] object-cover rotate-180"
+              src="/assets/icons/IconArrowLeft.svg"
+              alt="Next"
+            />
+          }
+          breakLabel={"..."}
+          pageCount={pages}
+          pageRangeDisplayed={2}
+          onPageChange={changePage}
+          containerClassName={"flex items-center justify-center"}
+          pageClassName={
+            "h-[30px] w-[30px] flex items-center justify-center border border-primary ml-[-1px]"
+          }
+          activeClassName={
+            "h-[30px] w-[30px] flex items-center justify-center border border-primary ml-[-1px] bg-primary text-white"
+          }
+          pageLinkClassName={"font-jakarta lg:text-base md:text-sm text-xs"}
+          previousClassName={
+            "h-[30px] w-[30px] flex items-center justify-center border border-primary rounded-l-lg"
+          }
+          nextClassName={
+            "h-[30px] w-[30px] flex items-center justify-center border border-primary ml-[-1px] rounded-r-lg"
+          }
+          previousLinkClassName={"font-jakarta lg:text-base md:text-sm text-xs"}
+          nextLinkClassName={"font-jakarta lg:text-base md:text-sm text-xs"}
+        />
+      </nav>
+
+      {/* MODAL FORM */}
+      <div
+        className={
+          "fixed h-[100%] w-[100%] top-0 left-0 backdrop-blur-md z-[7] transition-all duration-500 " +
+          (isOpenForm == true ? "opacity-100 visible" : "opacity-0 invisible")
+        }
+      >
+        <form
+          className={
+            "fixed h-auto xl:w-[35%] sm:w-[50%] w-[85%] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-20 p-3 bg-white rounded-[5px] cart-shadow transition-all duration-500 overflow-auto scrollbar-custom " +
+            (isOpenForm == true ? "opacity-100 visible" : "opacity-0 invisible")
+          }
+          onSubmit={handleSubmit}
+        >
+          {!loading ? (
+            <>
+              <div
+                className={
+                  (msgValidation.length || singleMsg) &&
+                  "font-jakarta md:text-sm text-xs self-start mb-3 px-3 py-1 border border-red-500 rounded-[5px] bg-red-50 font-semibold text-red-900"
+                }
+              >
+                {msgValidation.length > 0 ? (
+                  msgValidation.map((validation, index) => (
+                    <p key={index}>{validation}</p>
+                  ))
+                ) : (
+                  <p>{singleMsg}</p>
+                )}
+              </div>
+              <div className="font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3">
+                <span>Name*</span>
+                <input
+                  type="text"
+                  value={form.name}
+                  name="name"
+                  placeholder="Input dimension"
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light placeholder:text-black border border-black rounded-[5px] p-1 hover:drop-shadow-lg col-span-2"
+                />
+              </div>
+              <div className="font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3">
+                <span>Code*</span>
+                <input
+                  type="text"
+                  value={form.code}
+                  name="code"
+                  placeholder="Input code"
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light placeholder:text-black border border-black rounded-[5px] p-1 hover:drop-shadow-lg col-span-2"
+                />
+              </div>
+              <div className="font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3">
+                <span>Type of Top*</span>
+                <select
+                  name="type_top"
+                  value={form.type_top}
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light text-black border border-black rounded-[5px] py-1 pr-5 cursor-pointer hover:drop-shadow-lg col-span-2"
+                >
+                  <option value={null}>Choose one</option>
+                  <option value={1}>Corner</option>
+                  <option value={0}>No Corner</option>
+                </select>
+              </div>
+              <div
+                className={
+                  (selactedTypeTop == 1) | null
+                    ? "font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3 relative"
+                    : "hidden"
+                }
+              >
+                <span>Length*</span>
+                <input
+                  type="number"
+                  value={form.panjang}
+                  name="panjang"
+                  placeholder="Input the length"
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light placeholder:text-black border border-black rounded-[5px] p-1 hover:drop-shadow-lg col-span-2"
+                />
+                <span className="absolute inset-y-0 right-0 flex items-center px-4 font-jakarta md:text-sm text-xs font-light text-white bg-slate-700  rounded-tr-[5px] rounded-br-[5px]">
+                  cm
+                </span>
+              </div>
+              <div
+                className={
+                  (selactedTypeTop == 1) | null
+                    ? "font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3 relative"
+                    : "hidden"
+                }
+              >
+                <span>Width*</span>
+                <input
+                  type="number"
+                  value={form.lebar}
+                  name="lebar"
+                  placeholder="Input the width"
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light placeholder:text-black border border-black rounded-[5px] p-1 hover:drop-shadow-lg col-span-2"
+                />
+                <span className="absolute inset-y-0 right-0 flex items-center px-4 font-jakarta md:text-sm text-xs font-light text-white bg-slate-700 rounded-tr-[5px] rounded-br-[5px]">
+                  cm
+                </span>
+              </div>
+              <div
+                className={
+                  (selactedTypeTop == 0) | null
+                    ? "font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3 relative"
+                    : "hidden"
+                }
+              >
+                <span>Diameter*</span>
+                <input
+                  type="number"
+                  value={form.diameter}
+                  name="diameter"
+                  placeholder="Input the diameter"
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light placeholder:text-black border border-black rounded-[5px] p-1 hover:drop-shadow-lg col-span-2"
+                />
+                <span className="absolute inset-y-0 right-0 flex items-center px-4 font-jakarta md:text-sm text-xs font-light text-white bg-slate-700 rounded-tr-[5px] rounded-br-[5px]">
+                  cm
+                </span>
+              </div>
+              
+              <div className="font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3">
+                <span>Icon*</span>
+                <span className="flex flex-col col-span-2">
+                  {preview2D ? (
+                    <figure className="image is-128x128 cursor-pointer">
+                      <img src={preview2D} alt="Preview Image" 
+                      onClick={() => setIsOpenModalViewImg(true)} 
+                      title="Preview Image"
+                      data-bs-toggle="tooltip"
+                      />
+                    </figure>
+                  ) : isUpdate ? (
+                    <figure className="image is-128x128 cursor-pointer">
+                      <img
+                        src={"../assets/img/2D/seaters/"+ getImg }
+                        alt="Preview Image"
+                        onClick={() => setIsOpenModalViewImg(true)}
+                        title="Preview Image"
+                        data-bs-toggle="tooltip"
+                      />
+                    </figure>
+                  ) : (
+                    ""
+                  )}
+
+                  <span className="relative ml-auto">
+                    <input
+                      type="file"
+                      name="file"
+                      url={form.file}
+                      onChange={handleChangeForm}
+                      accept="image/*"
+                      className='w-[65px] rounded-[5px] after:absolute after:cursor-pointer after:top-0 after:right-0 after:p-1 after:h-full after:content-["Choose-File"] after:flex after:justify-center after:items-center after:font-jakarta after:md:text-sm after:text-xs after:font-light after:text-white after:bg-orange-600 after:rounded-[5px] col hover:after:bg-orange-500'
+                    />
+                  </span>
+                </span>
+              </div>
+
+              <div className="font-jakarta lg:text-base md:text-sm text-xs font-bold grid grid-cols-3 gap-3 mb-3">
+                <span>Visibility*</span>
+                <select
+                  name="is_visible"
+                  value={form.is_visible}
+                  onChange={handleChangeForm}
+                  className="font-jakarta md:text-sm text-xs font-light text-black border border-black rounded-[5px] py-1 pr-5 cursor-pointer hover:drop-shadow-lg col-span-2"
+                >
+                  <option value="">Choose one</option>
+                  <option value={1}>Visible</option>
+                  <option value={0}>Invisible</option>
+                </select>
+              </div>
+
+              <div className="flex gap-3 justify-end">
+                <span
+                  className="flex items-center gap-2 border bg-red-700 hover:bg-red-600 rounded-[5px] py-1 px-4 font-jakarta text-xs text-white cursor-pointer"
+                  onClick={resetForm}
+                  title="Cancel"
+                  data-bs-toggle="tooltip"
+                >
+                  <img src="/assets/icons/IconClose.svg" alt="Cancel" />
+                  <p>Cancel</p>
+                </span>
+                <button
+                  className="flex items-center gap-2 border bg-primary hover:bg-green-800 rounded-[5px] py-1 px-4 font-jakarta text-xs text-white"
+                  type="submit"
+                  title="Save"
+                  data-bs-toggle="tooltip"
+                >
+                  <img
+                    className="scale-[65%]"
+                    src="/assets/icons/IconCheckWhite.svg"
+                    alt=""
+                  />
+                  <p>Save</p>
+                </button>
+              </div>
+            </>
+          ) : (
+            <LoadingSpinner />
+          )}
+        </form>
+      </div>
+    </section>
+  );
+};
+
+export default Seaters;

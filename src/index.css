@@ -1,0 +1,638 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Marcellus&family=Martel:wght@200;300;400;600;700;800;900&display=swap');
+
+@import "print.css" print;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li.icon-inactive {
+  filter: brightness(0) saturate(100%) invert(39%) sepia(86%) saturate(1%) hue-rotate(314deg) brightness(108%) contrast(95%);
+}
+
+.animate-border {
+  border:1px solid #004441;
+  animation: 50ms ease-out 50ms borderLeftReverse, 50ms ease-out 100ms borderBottomReverse, 50ms ease-out 200ms borderRightReverse, 50ms ease-out 300ms borderTopReverse;
+  animation-fill-mode: forwards;
+}
+
+.animate-border:hover{
+  border:1px solid transparent;
+  animation: 50ms ease-in 50ms borderTop, 50ms ease-in 100ms borderRight, 50ms ease-in 200ms borderBottom, 50ms ease-in 300ms borderLeft;
+  animation-fill-mode: forwards;
+}
+
+li.box-active:hover {
+  background-color: #004441;
+}
+
+li:hover>img.icon-active{
+  filter: brightness(0) invert(1);
+}
+
+@keyframes borderTop {
+	0% {
+		border-top: 0px solid #004441;
+	}
+  25% {
+		border-top: 0.5px solid #004441;
+	}
+  50% {
+		border-top: 0.5px solid #004441;
+	}
+  75% {
+		border-top: 0.5px solid #004441;
+	}
+  100% {
+    border-top: 0.5px solid #004441;
+  }
+}
+
+@keyframes borderRight {
+	0% {
+		border-right: 0px solid #004441;
+	}
+  25% {
+		border-right: 0.5px solid #004441;
+	}
+  50% {
+		border-right: 0.5px solid #004441;
+	}
+  75% {
+		border-right: 0.5px solid #004441;
+	}
+  100% {
+    border-right: 0.5px solid #004441;
+  }
+}
+
+@keyframes borderBottom {
+	0% {
+		border-bottom: 0px solid #004441;
+	}
+  25% {
+		border-bottom: 0.5px solid #004441;
+	}
+  50% {
+		border-bottom: 0.5px solid #004441;
+	}
+  75% {
+		border-bottom: 0.5px solid #004441;
+	}
+  100% {
+    border-bottom: 0.5px solid #004441;
+  }
+}
+
+@keyframes borderLeft {
+	0% {
+		border-left: 0px solid #004441;
+	}
+  25% {
+		border-left: 0.5px solid #004441;
+	}
+  50% {
+		border-left: 0.5px solid #004441;
+	}
+  75% {
+		border-left: 0.5px solid #004441;
+	}
+  100% {
+    border-left: 0.5px solid #004441;
+  }
+}
+
+
+@keyframes borderTopReverse {
+	0% {
+		border-top: 0px solid #004441;
+	}
+  25% {
+		border-top: 0.5px solid #004441;
+	}
+  50% {
+		border-top: 0.5px solid #004441;
+	}
+  75% {
+		border-top: 0.5px solid #004441;
+	}
+  100% {
+    border-top: 0.5px solid transparent;
+  }
+}
+
+@keyframes borderRightReverse {
+	0% {
+		border-right: 0px solid #004441;
+	}
+  25% {
+		border-right: 0.5px solid #004441;
+	}
+  50% {
+		border-right: 0.5px solid #004441;
+	}
+  75% {
+		border-right: 0.5px solid #004441;
+	}
+  100% {
+    border-right: 0.5px solid transparent;
+  }
+}
+
+@keyframes borderBottomReverse {
+	0% {
+		border-bottom: 0px solid #004441;
+	}
+  25% {
+		border-bottom: 0.5px solid transparent;
+	}
+  50% {
+		border-bottom: 0.5px solid transparent;
+	}
+  75% {
+		border-bottom: 0.5px solid transparent;
+	}
+  100% {
+    border-bottom: 0.5px solid transparent;
+  }
+}
+
+@keyframes borderLeftReverse {
+	0% {
+		border-left: 0px solid #004441;
+	}
+  25% {
+		border-left: 0.5px solid transparent;
+	}
+  50% {
+		border-left: 0.5px solid transparent;
+	}
+  75% {
+		border-left: 0.5px solid transparent;
+	}
+  100% {
+    border-left: 0.5px solid transparent;
+  }
+}
+
+/* animate css for custom enquiry */
+#amination-logo {
+	animation-name: logo;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+}
+#amination-bg1 {
+  	animation: slide1 12s linear infinite;
+}
+#amination-bg2 {
+ 	animation: slide2 12s linear infinite;
+}
+#amination-bg3 {
+ 	animation: slide3 12s linear infinite;
+}
+
+@keyframes logo {
+	0%   {
+		transform: scale(80%) rotate(0deg);
+	}
+	100% {
+		transform: scale(160%) rotate(360deg);
+	}
+}
+@keyframes slide1 {
+	0%   {
+		width: 100%;
+		visibility: visible;
+	}
+	25% {
+		visibility: hidden;
+	}
+	50% {
+		visibility: hidden;
+	}
+	75%   {
+		visibility: hidden;
+	}
+	100% {
+		width: 120%;
+		visibility: visible;
+	}
+}
+@keyframes slide2 {
+	0%   {
+		visibility: hidden;
+	}
+	25% {
+		visibility: hidden;
+	}
+	50% {
+		width: 100%;
+		visibility: visible;
+	}
+	75%   {
+		visibility: hidden;
+	}
+	100% {
+		visibility: hidden;
+	}
+}
+@keyframes slide3 {
+	0%   {
+		visibility: hidden;
+	}
+	25% {
+		visibility: hidden;
+	}
+	50% {
+		visibility: hidden;
+	}
+	75%   {
+		width: 100%;
+		visibility: visible;
+	}
+	100% {
+		visibility: hidden;
+	}
+}
+/* animate css for custom enquiry */
+
+.input-icon-search{
+    background-image: url('/public/assets/icons/IconSearch.svg');
+    background-repeat: no-repeat;
+}
+
+.text-product-type{
+    background: linear-gradient(180deg, #312D2D 0%, rgba(19, 18, 18, 0.2) 100%);
+}
+
+.nav-shadow{
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+}
+
+.cart-shadow{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.checkout-shadow{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+.card-field-shadow{
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+}
+
+.map-shadow{
+    filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.25));
+}
+
+
+/* Table 2 Card */
+table#table-customer__activity,
+table#table--Pattern,
+table#table--Shape,
+table#table--Seater,
+table#table--Edge,
+table#table--Leg__Design,
+table#table--Leg__Material,
+table#table--Leg__Color,
+table#table--Users,
+table#table--Rounded_Corner,
+table#table--Faqce,
+table#table--kbce,
+table#table--Customers,
+table#table--pdf_wish {
+    /* border: 1px solid #ccc; */
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  table#table-customer__activity caption,
+  table#table--Pattern caption,
+  table#table--Shape caption,
+  table#table--Seater caption,
+  table#table--Edge caption,
+  table#table--Leg__Design caption,
+  table#table--Leg__Material caption,
+  table#table--Leg__Color caption,
+  table#table--Users caption,
+  table#table--Rounded_Corner caption,
+  table#table--Faqce caption,
+  table#table--kbce caption,
+  table#table--Customers caption,
+  table#table--pdf_wish caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  table#table-customer__activity tr,
+  table#table--Pattern tr,
+  table#table--Shape tr,
+  table#table--Seater tr,
+  table#table--Edge tr,
+  table#table--Leg__Design tr,
+  table#table--Leg__Material tr,
+  table#table--Leg__Color tr,
+  table#table--Users tr,
+  table#table--Rounded_Corner tr,
+  table#table--Faqce tr,
+  table#table--kbce tr,
+  table#table--Customers tr,
+  table#table--pdf_wish tr {
+    /* background-color: #f8f8f8;
+    border: 1px solid #ddd; */
+    padding: .35em;
+  }
+  
+  table#table-customer__activity th,
+  table#table-customer__activity td,
+  table#table--Pattern th,
+  table#table--Pattern td,
+  table#table--Shape th,
+  table#table--Shape td,
+  table#table--Seater th,
+  table#table--Seater td,
+  table#table--Edge th,
+  table#table--Edge td,
+  table#table--Leg__Design th,
+  table#table--Leg__Design td,
+  table#table--Leg__Material th,
+  table#table--Leg__Material td,
+  table#table--Leg__Color th,
+  table#table--Leg__Color td,
+  table#table--Users th,
+  table#table--Users td,
+  table#table--Rounded_Corner th,
+  table#table--Rounded_Corner td,
+  table#table--Faqce th,
+  table#table--Faqce td,
+  table#table--kbce th,
+  table#table--kbce td,
+  table#table--Customers th,
+  table#table--Customers td,
+  table#table--pdf_wish th,
+  table#table--pdf_wish td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  table#table-customer__activity th,
+  table#table--Pattern th,
+  table#table--Shape th,
+  table#table--Seater th,
+  table#table--Edge th,
+  table#table--Leg__Design th,
+  table#table--Leg__Material th,
+  table#table--Leg__Color th,
+  table#table--Users th,
+  table#table--Rounded_Corner th,
+  table#table--Faqce th,
+  table#table--kbce th,
+  table#table--Customers th,
+  table#table--pdf_wish th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  #accordionCustomerData .nav-tabs .nav-link { color: rgb(249, 231, 170);}
+
+  #accordionCustomerData .nav-tabs .nav-link.active { color: rgb(251 191 36);}
+
+  #accordionCustomerData .nav-tabs .nav-link.active:hover {color:white;}
+
+  #tabs-tab-faqknwl.nav-tabs .nav-link.active { color: white; background:rgb(22, 101, 52);}
+
+  
+  @media screen and (max-width: 600px) {
+    table#table-customer__activity,
+    table#table--Pattern,
+    table#table--Shape,
+    table#table--Seater,
+    table#table--Edge,
+    table#table--Leg__Design,
+    table#table--Leg__Material,
+    table#table--Leg__Color,
+    table#table--Users,
+    table#table--Rounded_Corner,
+    table#table--Faqce,
+    table#table--kbce,
+    table#table--Customers,
+    table#table--pdf_wish {
+      border: 0;
+    }
+  
+    table#table-customer__activity caption,
+    table#table--Pattern caption,
+    table#table--Shape caption,
+    table#table--Seater caption,
+    table#table--Edge caption,
+    table#table--Leg__Design caption,
+    table#table--Leg__Material caption,
+    table#table--Leg__Color caption,
+    table#table--Users caption,
+    table#table--Rounded_Corner caption,
+    table#table--Faqce caption,
+    table#table--kbce caption,
+    table#table--Customers caption,
+    table#table--pdf_wish caption {
+      font-size: 1.3em;
+    }
+    
+    table#table-customer__activity thead,
+    table#table--Pattern thead,
+    table#table--Shape thead,
+    table#table--Seater thead,
+    table#table--Edge thead,
+    table#table--Leg__Design thead,
+    table#table--Leg__Material thead,
+    table#table--Leg__Color thead,
+    table#table--Users thead,
+    table#table--Rounded_Corner thead,
+    table#table--Faqce thead,
+    table#table--kbce thead,
+    table#table--Customers thead,
+    table#table--pdf_wish thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+
+    table#table-customer__activity tr,
+    table#table--Pattern tr,
+    table#table--Shape tr,
+    table#table--Seater tr,
+    table#table--Edge tr,
+    table#table--Leg__Design tr,
+    table#table--Leg__Material tr,
+    table#table--Leg__Color tr,
+    table#table--Users tr,
+    table#table--Rounded_Corner tr,
+    table#table--Faqce tr,
+    table#table--kbce tr,
+    table#table--Customers tr,
+    table#table--pdf_wish tr {
+      /* border-bottom: 3px solid #ddd; */
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    table#table-customer__activity td,
+    table#table--Pattern td,
+    table#table--Shape td,
+    table#table--Seater td,
+    table#table--Edge td,
+    table#table--Leg__Design td,
+    table#table--Leg__Material td,
+    table#table--Leg__Color td,
+    table#table--Users td,
+    table#table--Rounded_Corner td,
+    table#table--Faqce td,
+    table#table--kbce td,
+    table#table--Customers td,
+    table#table--pdf_wish td {
+      /* border-bottom: 1px solid #ddd; */
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    table#table-customer__activity td::before,
+    table#table--Pattern td::before,
+    table#table--Shape td::before,
+    table#table--Seater td::before,
+    table#table--Edge td::before,
+    table#table--Leg__Design td::before,
+    table#table--Leg__Material td::before,
+    table#table--Leg__Color td::before,
+    table#table--Users td::before,
+    table#table--Rounded_Corner td::before,
+    table#table--Faqce td::before,
+    table#table--kbce td::before,
+    table#table--Customers td::before,
+    table#table--pdf_wish td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase; 
+    }
+    
+    table#table-customer__activity td:first-child,
+    table#table--Pattern td:first-child,
+    table#table--Shape td:first-child,
+    table#table--Seater td:first-child,
+    table#table--Edge td:first-child,
+    table#table--Leg__Design td:first-child,
+    table#table--Leg__Material td:first-child,
+    table#table--Leg__Color td:first-child,
+    table#table--Users td:first-child,
+    table#table--Rounded_Corner td:first-child,
+    table#table--Faqce td:first-child,
+    table#table--kbce td:first-child,
+    table#table--Customers td:first-child,
+    table#table--pdf_wish td:first-child {
+      background: rgba(100, 255, 159, 0.3);
+    }
+
+    table#table-customer__activity td:last-child,
+    table#table--Pattern td:last-child,
+    table#table--Shape td:last-child,
+    table#table--Seater td:last-child,
+    table#table--Edge td:last-child,
+    table#table--Leg__Design td:last-child,
+    table#table--Leg__Material td:last-child,
+    table#table--Leg__Color td:last-child,
+    table#table--Users td:last-child,
+    table#table--Rounded_Corner td:last-child,
+    table#table--Faqce td:last-child,
+    table#table--kbce td:last-child,
+    table#table--Customers td:last-child,
+    table#table--pdf_wish td:last-child {
+      border-bottom: 0;
+      padding-bottom: 15px;
+    }
+
+    table#table-customer__activity tr:nth-child(even),
+    table#table--Pattern td:nth-child(even),
+    table#table--Shape td:nth-child(even),
+    table#table--Seater td:nth-child(even),
+    table#table--Edge td:nth-child(even),
+    table#table--Leg__Design td:nth-child(even),
+    table#table--Leg__Material td:nth-child(even),
+    table#table--Leg__Color td:nth-child(even),
+    table#table--Users td:nth-child(even),
+    table#table--Rounded_Corner td:nth-child(even),
+    table#table--Faqce td:nth-child(even),
+    table#table--kbce td:nth-child(even),
+    table#table--Customers td:nth-child(even),
+    table#table--pdf_wish td:nth-child(even) {
+      background: rgba(205, 205, 205, 0.2);
+    }
+  }  
+
+  .accordion-button:not(.collapsed) {
+    @apply text-[#000] shadow-none
+  }
+
+  .accordion .accordion-item .accordion-button {
+    @apply font-martel text-[16px] uppercase tracking-[.15px]
+  }
+
+  .accordion .accordion-item .accordion-body {
+    @apply text-justify
+  }
+
+  .accordion-button:not(.collapsed)::after {
+    background-image : url(data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23212529%27%3e%3cpath fill-rule=%27evenodd%27 d=%27M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z%27/%3e%3c/svg%3e)
+  }
+
+  .accordion .accordion-item {
+    border-width : inherit;
+  }
+
+  .variant-item {
+    transform : translateX(0);
+    transition : all .3s ease-in-out;
+  }
+
+  .variant-item .hehe {
+    transform : translateX(15px);
+    transition : all .3s ease-in-out;
+  }
+
+  .fadeku {
+    animation: fade-in-keyframes 1s;
+  }
+  @keyframes fade-in-keyframes {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
+
+
+  .padding-r-inherit {
+    padding-right : inherit
+  }
+  .padding-l-inherit {
+    padding-left : inherit
+  }
+
+  .detail-product p {
+    @apply font-martel text-[12px] tracking-[.4px] uppercase mb-[8px]
+  }

@@ -1,0 +1,18 @@
+@media 
+  (min-device-width:280px)
+  and (max-device-width: 1023px)
+  and (orientation: landscape) 
+  and (-webkit-device-pixel-ratio: 1.5) { 
+  body:after{
+    border: 1px solid red;
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    content: "";
+    background: #212121 url(http://i.stack.imgur.com/sValK.png) 0 0 no-repeat; /* replace with an image that tells the visitor to rotate the device to landscape mode */
+    background-size: 100% auto;
+    opacity: 0.95;
+  }
+}

@@ -1,0 +1,23 @@
+@media (max-width: 1023px) and (orientation: landscape){ /* tablet and smaller */
+  body:after{
+    position: absolute;
+    z-index: 9999;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    content: "";
+    background: #212121 url(http://i.stack.imgur.com/sValK.png) 0 0 no-repeat; /* replace with an image that tells the visitor to rotate the device to landscape mode */
+    background-size: 100% auto;
+    opacity: 0.95;
+  }
+}
+
+@media (min-width: 1024px) {
+  #border:hover #isi-border {
+    background-color: transparent;
+    color: white;
+  }
+  #border:hover #isi-border::after {
+    border-color: white;
+  }
+}

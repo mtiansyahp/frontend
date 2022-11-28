@@ -1,0 +1,66 @@
+RECTANGLE 
+1. Cavallo 		: https://custom.esteticohome.com/?code=RCTSLMC08AB5SSLCVLBRD
+2. Cavallo Bloc	: https://custom.esteticohome.com/?code=RCTSLMC08AB9SSLCVBBDF
+3. Cavallo Slim	: https://custom.esteticohome.com/?code=RCTSLMC08AB7SSLCVSBDF
+4. Felice		: https://custom.esteticohome.com/?code=RCTSLMC08CRSSSLFLCGDF
+5. Simply Modern	: https://custom.esteticohome.com/?code=RCTSLMC08PGLSSLSMNGDF
+6. Spidery		: https://custom.esteticohome.com/?code=RCTSLMC08CMPSSLSPDBRD
+7. Type X		: https://custom.esteticohome.com/?code=RCTSLMC08MP2SSLTPXBDF
+8. Zorro		: https://custom.esteticohome.com/?code=RCTSLMC08MP7SSLZROBDF
+9. Cross Z		: https://custom.esteticohome.com/?code=RCTSLMC08PBCSSLCRZBDF
+
+
+                {
+                    id: 1,
+                    name: 'Cavallo',
+                    image: 'Rectangle/Cavallo.png',
+                    url: '/?code=RCTSLMC08AB5SSLCVLBRD'
+                },
+                {
+                    id: 2,
+                    name: 'Cavallo Bloc',
+                    image: 'Rectangle/Cavallo Bloc.png',
+                    url: '/?code=RCTSLMC08AB9SSLCVBBDF'
+                },
+                {
+                    id: 3,
+                    name: 'Cavallo Slim',
+                    image: 'Rectangle/Cavallo Slim.png',
+                    url: '/?code=RCTSLMC08AB7SSLCVSBDF'
+                },
+                {
+                    id: 4,
+                    name: 'Fellice',
+                    image: 'Rectangle/Fellice.png',
+                    url: '/?code=RCTSLMC08CRSSSLFLCGDF'
+                },
+                {
+                    id: 5,
+                    name: 'Simply Modern',
+                    image: 'Rectangle/Simply Modern.png',
+                    url: '/?code=RCTSLMC08PGLSSLSMNGDF'
+                },
+                {
+                    id: 6,
+                    name: 'Spidery',
+                    image: 'Rectangle/Spidery.png',
+                    url: '/?code=RCTSLMC08CMPSSLSPDBRD'
+                },
+                {
+                    id: 7,
+                    name: 'Type X',
+                    image: 'Rectangle/Type X.png',
+                    url: '/?code=RCTSLMC08MP2SSLTPXBDF'
+                },
+                {
+                    id: 8,
+                    name: 'Zorro',
+                    image: 'Rectangle/Zorro.png',
+                    url: '/?code=RCTSLMC08MP7SSLZROBDF'
+                },
+                {
+                    id: 9,
+                    name: 'Cross Z',
+                    image: 'Rectangle/Cross Z.png',
+                    url: '/?code=RCTSLMC08PBCSSLCRZBDF'
+                }

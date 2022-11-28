@@ -1,0 +1,65 @@
+Zorro:https://custom.esteticohome.com/?code=RDCSLMC06CCBSSLZROBDF
+Type X: https://custom.esteticohome.com/?code=RDCSLMC08CMPSSLTPXBRD
+Cross Z: https://custom.esteticohome.com/?code=RDCSLMC08PBCSSLCRZBDF
+Simply: https://custom.esteticohome.com/?code=RDCSLMC08EBGSSLSMNBDF
+Felice: https://custom.esteticohome.com/?code=RDCSLMC08AB7SSLFLCBRD
+Cavallo Slim: https://custom.esteticohome.com/?code=RDCSLMC06CDLSSLCVSBDF
+Cavallo: https://custom.esteticohome.com/?code=RDCSLMC06CCBSSLCVLBRD
+Spidery: https://custom.esteticohome.com/?code=RDCSLMC08PBCSSLSPDBRD
+Cavallo Bloc: https://custom.esteticohome.com/?code=RDCSLMC08CMPSSLCVBBRD
+
+
+{
+                    id: 1,
+                    name: 'Cavallo',
+                    image: 'Rounded Corner/Cavallo.png',
+                    url: '/?code=RDCSLMC06CCBSSLCVLBRD'
+                },
+                {
+                    id: 2,
+                    name: 'Cavallo Bloc',
+                    image: 'Rounded Corner/Cavallo Bloc.png',
+                    url: '/?code=RDCSLMC08CMPSSLCVBBRD'
+                },
+                {
+                    id: 3,
+                    name: 'Cavallo Slim',
+                    image: 'Rounded Corner/Cavallo Slim.png',
+                    url: '/?code=RDCSLMC06CRSSSLCVSBRD'
+                },
+                {
+                    id: 4,
+                    name: 'Fellice',
+                    image: 'Rounded Corner/Fellice.png',
+                    url: '/?code=RDCSLMC08AB7SSLFLCBRD'
+                },
+                {
+                    id: 5,
+                    name: 'Simply Modern',
+                    image: 'Rounded Corner/Simply Modern.png',
+                    url: '/?code=RDCSLMC08EBGSSLSMNBDF'
+                },
+                {
+                    id: 6,
+                    name: 'Spidery',
+                    image: 'Rounded Corner/Spidery.png',
+                    url: '/?code=RDCSLMC08PBCSSLSPDBRD'
+                },
+                {
+                    id: 7,
+                    name: 'Type X',
+                    image: 'Rounded Corner/Type X.png',
+                    url: '/?code=RDCSLMC08CMPSSLTPXBRD'
+                },
+                {
+                    id: 8,
+                    name: 'Zorro',
+                    image: 'Rounded Corner/Zorro.png',
+                    url: '/?code=RDCSLMC06CCBSSLZROBDF'
+                },
+                {
+                    id: 9,
+                    name: 'Cross Z',
+                    image: 'Rounded Corner/Cross Z.png',
+                    url: '/?code=RDCSLMC08PBCSSLCRZBDF'
+                }
